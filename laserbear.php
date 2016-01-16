@@ -18,15 +18,13 @@ defined('ABSPATH') or die('No script kiddies please!');
 add_action('rest_api_init', 'laserbear_rest_api_init');
 function laserbear_rest_api_init() {
 	register_rest_route('laserbear/v1', '/people', array(
-		'methods' => WP_REST_Server::READABLE,
-		'callback' => 'laserbear_get_all_people',
-		'args' => array(),
+		'methods' => 'GET',
+		'callback' => 'laserbear_get_all_people'
 	));
 
 	register_rest_route('laserbear/v1', '/people/(?P<id>[\d]+)', array(
-		'methods' => WP_REST_Server::READABLE,
-		'callback' => 'laserbear_get_one_person',
-		'args' => array(),
+		'methods' => 'GET',
+		'callback' => 'laserbear_get_one_person'
 	));
 
 	// TODO TODO This would be useful for discoverability
@@ -55,15 +53,15 @@ function laserbear_get_one_person( $request ) {
 			$data['first'] = 'sarah';
 			$data['last'] = 'hines';
 			break;
-		case 0:
+		case 1:
 			$data['first'] = 'jennifer';
 			$data['last'] = 'ecker';
 			break;
-		case 0:
+		case 2:
 			$data['first'] = 'katie';
 			$data['last'] = 'allen';
 			break;
-		case 0:
+		case 3:
 			$data['first'] = 'johnicholas';
 			$data['last'] = 'hines';
 			break;
@@ -75,5 +73,15 @@ function laserbear_get_one_person( $request ) {
 
 	return new WP_REST_Response( $data, 200 );
 }
+
+add_action('wp_enqueue_scripts', 'laserbear_wp_enqueue_scripts');
+function laserbear_wp_enqueue_scripts() {
+	wp_register_script( 'laserbear',
+		plugins_url( 'js/laserbear.js', __FILE__  ),
+		array()
+	);
+	wp_enqueue_script( 'laserbear' );
+}
+
 
 ?>
