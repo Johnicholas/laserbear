@@ -12,7 +12,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 // This is based primarily on http://v2.wp-api.org/extending/adding/
 
-
 defined('ABSPATH') or die('No script kiddies please!');
 
 add_action('rest_api_init', 'laserbear_rest_api_init');
@@ -78,9 +77,22 @@ add_action('wp_enqueue_scripts', 'laserbear_wp_enqueue_scripts');
 function laserbear_wp_enqueue_scripts() {
 	wp_register_script( 'laserbear',
 		plugins_url( 'js/laserbear.js', __FILE__  ),
-		array()
+		array( 'jquery' )
 	);
 	wp_enqueue_script( 'laserbear' );
+}
+
+// TODO: this should probably go somewhere other than the footer,
+// but I don't exactly know where
+add_action('wp_footer', 'laserbear_wp_footer');
+function laserbear_wp_footer($content) {
+	echo '<div id="laserbear">';
+	echo '  <ol id="laserbear_people">';
+	echo '  </ol>';
+	echo '  <div id="laserbear_person">';
+	echo '  </div>';
+	echo '  <button id="laserbear_refresh">Refresh People</button>';
+	echo '</div>';
 }
 
 
